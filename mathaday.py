@@ -4,13 +4,12 @@ Created on Wed Mar 26 09:18:34 2025
 
 @author: Hemal
 """
-
 import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
-from datetime import time
+from datetime import datetime, time
 
 def main():
     st.set_page_config(
@@ -152,7 +151,7 @@ def math_quiz_section():
         st.session_state.questions = generate_questions(quiz_type, num_range, num_questions)
         st.session_state.user_answers = [None] * num_questions
         st.session_state.times_taken = [0] * num_questions
-        st.session_state.quiz_start_time = time.time()
+        st.session_state.quiz_start_time = datetime.now()
         st.rerun()
 
     if st.session_state.get('quiz_in_progress'):
@@ -204,7 +203,7 @@ def run_quiz(quiz_type, difficulty, use_timer, time_limit):
         st.markdown(f"<div class='question-container'>", unsafe_allow_html=True)
         st.markdown(f"<p class='big-font'>Question {current_question+1}: {questions[current_question]['question']}</p>", unsafe_allow_html=True)
 
-        question_start_time = time.time()
+        question_start_time = datetime.now()
 
         # If timer is enabled, show countdown
         if use_timer:
@@ -214,13 +213,13 @@ def run_quiz(quiz_type, difficulty, use_timer, time_limit):
                 time.sleep(1)
 
                 # Break if time is up
-                if time.time() - question_start_time >= time_limit:
+                if (datetime.now() - question_start_time).total_seconds() >= time_limit:
                     break
 
         user_answers[current_question] = st.number_input(f"Your answer for Q{current_question+1}", key=f"q{current_question}", step=1)
 
-        question_end_time = time.time()
-        times_taken[current_question] = question_end_time - question_start_time
+        question_end_time = datetime.now()
+        times_taken[current_question] = (question_end_time - question_start_time).total_seconds()
 
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -238,7 +237,7 @@ def evaluate_quiz_results(questions, user_answers, times_taken, quiz_type, diffi
     incorrect_answers = []
 
     # Calculate total quiz time
-    total_quiz_time = time.time() - quiz_start_time
+    total_quiz_time = (datetime.now() - quiz_start_time).total_seconds()
     avg_time_per_question = total_quiz_time / len(questions) if questions else 0
 
     # Evaluate each answer
@@ -265,7 +264,7 @@ def evaluate_quiz_results(questions, user_answers, times_taken, quiz_type, diffi
 
     # Save quiz results to session state
     quiz_result = {
-        "date": time.strftime("%Y-%m-%d %H:%M"),
+        "date": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "quiz_type": quiz_type,
         "difficulty": difficulty,
         "score": score,
@@ -608,7 +607,7 @@ def multiplication_tables_section():
 
     if st.button("Start Practice Quiz"):
         with st.form(key="practice_form"):
-            questions = np.random.sample(range(1, range_end + 1), min(5, range_end))
+            questions = np.random.choice(range(1, range_end + 1), min(5, range_end), replace=False)
 
             user_answers = []
             for q in questions:
