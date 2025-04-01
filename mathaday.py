@@ -6,7 +6,6 @@ Created on Wed Mar 26 09:18:34 2025
 """
 
 import streamlit as st
-import random
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -162,28 +161,28 @@ def math_quiz_section():
 def generate_questions(quiz_type, num_range, num_questions):
     questions = []
     for i in range(num_questions):
-        if quiz_type == "Addition" or (quiz_type == "Mixed" and random.choice([True, False, False, False])):
-            a, b = random.randint(1, num_range), random.randint(1, num_range)
+        if quiz_type == "Addition" or (quiz_type == "Mixed" and np.random.choice([True, False, False, False])):
+            a, b = np.random.randint(1, num_range), np.random.randint(1, num_range)
             correct_answer = a + b
             question = f"{a} + {b} = ?"
             operation = "addition"
 
-        elif quiz_type == "Subtraction" or (quiz_type == "Mixed" and random.choice([True, False, False])):
-            a = random.randint(1, num_range)
-            b = random.randint(1, min(a, num_range))
+        elif quiz_type == "Subtraction" or (quiz_type == "Mixed" and np.random.choice([True, False, False])):
+            a = np.random.randint(1, num_range)
+            b = np.random.randint(1, min(a, num_range))
             correct_answer = a - b
             question = f"{a} - {b} = ?"
             operation = "subtraction"
 
-        elif quiz_type == "Multiplication" or (quiz_type == "Mixed" and random.choice([True, False])):
-            a, b = random.randint(1, num_range//5 or 2), random.randint(1, num_range//5 or 2)
+        elif quiz_type == "Multiplication" or (quiz_type == "Mixed" and np.random.choice([True, False])):
+            a, b = np.random.randint(1, num_range//5 or 2), np.random.randint(1, num_range//5 or 2)
             correct_answer = a * b
             question = f"{a} × {b} = ?"
             operation = "multiplication"
 
         else:  # Division
-            b = random.randint(1, 10)
-            a = b * random.randint(1, num_range//10 or 2)
+            b = np.random.randint(1, 10)
+            a = b * np.random.randint(1, num_range//10 or 2)
             correct_answer = a // b
             question = f"{a} ÷ {b} = ?"
             operation = "division"
@@ -609,7 +608,7 @@ def multiplication_tables_section():
 
     if st.button("Start Practice Quiz"):
         with st.form(key="practice_form"):
-            questions = random.sample(range(1, range_end + 1), min(5, range_end))
+            questions = np.random.sample(range(1, range_end + 1), min(5, range_end))
 
             user_answers = []
             for q in questions:
@@ -746,7 +745,7 @@ def length_converter():
         "A typical school bus is about 35 feet long.",
         "A football field is 100 yards long."
     ]
-    st.info(random.choice(length_facts))
+    st.info(np.random.choice(length_facts))
 
 def weight_converter():
     st.subheader("Weight Converter")
@@ -808,7 +807,7 @@ def weight_converter():
         "A typical textbook weighs about 1 pound.",
         "A gallon of milk weighs about 8.6 pounds."
     ]
-    st.info(random.choice(weight_facts))
+    st.info(np.random.choice(weight_facts))
 
 def temperature_converter():
     st.subheader("Temperature Converter")
@@ -899,7 +898,7 @@ def temperature_converter():
         "The temperature on the surface of the Sun is about 5,500°C (9,940°F)!",
         "A fever is usually defined as a body temperature above 38°C (100.4°F)."
     ]
-    st.info(random.choice(temp_facts))
+    st.info(np.random.choice(temp_facts))
 
 def time_converter():
     st.subheader("Time Converter")
@@ -965,7 +964,7 @@ def time_converter():
         "It takes about 8 minutes for sunlight to reach Earth.",
         "A day on planet Venus is longer than its year!"
     ]
-    st.info(random.choice(time_facts))
+    st.info(np.random.choice(time_facts))
 
 if __name__ == "__main__":
     main()
