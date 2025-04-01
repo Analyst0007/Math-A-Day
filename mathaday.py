@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
-import time
+from datetime import time
 
 def main():
     st.set_page_config(
