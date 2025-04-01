@@ -1,5 +1,5 @@
 streamlit
-random
+random2
 pandas
 numpy
 matplotlib
